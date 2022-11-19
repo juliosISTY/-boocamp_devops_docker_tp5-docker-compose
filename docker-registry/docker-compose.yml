@@ -1,0 +1,24 @@
+version: '3.3'
+services:
+    registry:
+        ports:
+            - '5000:5000'
+        environment:
+            - REGISTRY_STORAGE_DELETE_ENABLED=true
+        network_mode: sharenetwork
+        container_name: registry-easy
+        image: 'registry:2'
+    
+    docker-registry-ui:
+        ports:
+            - '8090:80'
+        environment:
+            - 'REGISTRY_URL=http://registry-easy:5000'
+            - REGISTRY_TITLE=easytraining
+            - DELETE_IMAGES=true
+        network_mode: sharenetwork
+        container_name: frontend-easy
+        image: 'joxit/docker-registry-ui:static'
+
+networks:
+    sharenetwork:
